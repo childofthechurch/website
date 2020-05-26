@@ -1,0 +1,101 @@
+$text-font: monospace;
+@font-face {
+    font-family: 'COTC';
+    src: url('webfontkit-20200526-141111/cotc-webfont.woff2') format('woff2'),
+         url('webfontkit-20200526-141111/cotc-webfont.woff') format('woff');
+
+}
+a:link, a:visited {
+   
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  a:hover, a:active {
+    color: red;
+  }
+
+.my-video {
+    width: 100%;
+    height: auto;
+}   
+
+
+
+.landing {
+    
+    text-align: center;
+    width: 100%;
+    height: auto;
+    padding: 14px 25px;
+    font-family: 'COTC';
+    color: #ffffff;
+    font-size: 10vw;
+    text-shadow: 3px 3px #444444;
+    letter-spacing: 6px;
+ 
+}
+.email {
+    
+    text-align: center;
+    width: 100%;
+    height: auto;
+    font-family: $text-font;
+    color: #ffffff;
+    font-size: 5vw;
+    text-shadow: 3px 3px #444444;
+    letter-spacing: 1px;
+ 
+}
+
+
+.end {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: auto;
+    font-family: 'COTC';
+    color: #ffffff;
+    font-size: 100px;
+    text-shadow: 2px 2px #444444;
+    letter-spacing: 6px;
+    #sizeSmall {
+        width:25%;
+        height: auto;
+    }
+}
+.videos {
+    width: 100%;
+    height: auto;
+}
+.row {
+    display: flex;
+    padding: 1px;
+    font-family: $text-font;
+    font-size: 12px;
+}
+  
+.column {
+    flex: 50%;
+    padding: 0px;
+}   
+
+/* Without Container */
+.zoom-without-container {
+    transition: transform .2s; /* Animation */
+    margin: 0 auto;
+    
+  }
+  .zoom-without-container:hover {
+    transform: scale(2); 
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+
+  body, html {
+    height: 100%;
+  }
+  
+
