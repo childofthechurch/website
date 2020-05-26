@@ -5,18 +5,7 @@ $text-font: monospace;
          url('webfontkit-20200526-141111/cotc-webfont.woff') format('woff');
 
 }
-a:link, a:visited {
-   
-    color: white;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-  }
-  
-  a:hover, a:active {
-    color: red;
-  }
+
 
 .my-video {
     width: 100%;
@@ -30,11 +19,11 @@ a:link, a:visited {
     text-align: center;
     width: 100%;
     height: auto;
-    padding: 14px 25px;
+    padding: 1vw 1vw;
     font-family: 'COTC';
     color: #ffffff;
-    font-size: 10vw;
-    text-shadow: 3px 3px #444444;
+    font-size: 9vw;
+    text-shadow: 2px 2px #444444;
     letter-spacing: 6px;
  
 }
