@@ -31,16 +31,18 @@
   letter-spacing: 1px;
 }
 
+.email img {
+  padding: 10px;
+}
+
 .end {
   text-align: center;
   position: relative;
   width: 100%;
   height: auto;
-  font-family: 'COTC';
-  color: #ffffff;
-  font-size: 100px;
-  text-shadow: 2px 2px #444444;
-  letter-spacing: 6px;
+  font-family: monospace;
+  color: #000000;
+  font-size: 1vw;
 }
 
 .end #sizeSmall {

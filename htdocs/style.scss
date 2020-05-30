@@ -29,6 +29,7 @@ $text-font: monospace;
 }
 .email {
     
+    
     text-align: center;
     width: 100%;
     height: auto;
@@ -37,8 +38,12 @@ $text-font: monospace;
     font-size: 5vw;
     text-shadow: 3px 3px #444444;
     letter-spacing: 1px;
+    img {
+        padding: 10px;
+    }
  
 }
+
 
 
 .end {
@@ -46,11 +51,10 @@ $text-font: monospace;
     position: relative;
     width: 100%;
     height: auto;
-    font-family: 'COTC';
-    color: #ffffff;
-    font-size: 100px;
-    text-shadow: 2px 2px #444444;
-    letter-spacing: 6px;
+    font-family: $text-font;
+    color: #000000;
+    font-size: 1vw;
+   
     #sizeSmall {
         width:25%;
         height: auto;
@@ -70,21 +74,18 @@ $text-font: monospace;
 .column {
     flex: 50%;
     padding: 0px;
-}   
+}  
 
-/* Without Container */
-.zoom-without-container {
-    transition: transform .2s; /* Animation */
-    margin: 0 auto;
-    
-  }
-  .zoom-without-container:hover {
-    transform: scale(2); 
-    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  }
-
-  body, html {
-    height: 100%;
-  }
+.row-program {
+    display: flex;
+    padding: 1px;
+    font-family: $text-font;
+    font-size: 12px;
+}
+  
+.column-program {
+    flex: 33%;
+    padding: 5px;
+}
   
 
