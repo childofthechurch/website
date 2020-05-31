@@ -89,8 +89,14 @@
   width: 100%;
 }
 
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
   .column {
+    -webkit-box-flex: 100%;
+        -ms-flex: 100%;
+            flex: 100%;
+    max-width: 100%;
+  }
+  .row {
     -webkit-box-flex: 100%;
         -ms-flex: 100%;
             flex: 100%;

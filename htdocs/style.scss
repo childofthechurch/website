@@ -103,7 +103,12 @@ $text-font: monospace;
     .column {
       flex: 100%;
       max-width: 100%;
-      border: 2px solid red;
+      
+    }
+    .row {
+        flex: 100%;
+        max-width: 100%;
+        
     }
   }
   
