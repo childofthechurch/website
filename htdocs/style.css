@@ -15,19 +15,32 @@
   letter-spacing: 6px;
 }
 
-.email {
-  text-align: center;
+.links {
   width: 100%;
   height: auto;
   font-family: monospace;
   color: #ffffff;
-  font-size: 5vw;
-  text-shadow: 3px 3px #444444;
+  font-size: 1vw;
+  text-shadow: none;
   letter-spacing: 1px;
+}
+
+.links img {
+  padding: 20px;
+}
+
+.email {
+  width: 100%;
+  font-family: monospace;
+  color: #ffffff;
+  font-size: 1vw;
 }
 
 .email img {
   padding: 10px;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
 }
 
 .end {

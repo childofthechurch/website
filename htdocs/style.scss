@@ -20,24 +20,47 @@ $text-font: monospace;
     letter-spacing: 6px;
  
 }
-.email {
+.links {
     
     
-    text-align: center;
+   
     width: 100%;
     height: auto;
     font-family: $text-font;
     color: #ffffff;
-    font-size: 5vw;
-    text-shadow: 3px 3px #444444;
+    font-size: 1vw;
+    text-shadow: none;
     letter-spacing: 1px;
+    
+    
     img {
-        padding: 10px;
+        padding: 20px;
+        
     }
  
 }
 
+.email {
+    
+    
+   
+    width: 100%;
+    font-family: $text-font;
+    color: #ffffff;
+    font-size: 1vw;
+    
+   
+    
+    
+    img {
+        padding: 10px;
+        position: fixed;
+        right: 0px;
+        bottom: 0px;
 
+    }
+ 
+}
 
 .end {
     text-align: center;
@@ -76,10 +99,11 @@ $text-font: monospace;
     vertical-align: middle;
     width: 100%;
   }
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
     .column {
       flex: 100%;
       max-width: 100%;
+      border: 2px solid red;
     }
   }
   
