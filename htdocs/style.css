@@ -3,11 +3,6 @@
   src: url("webfontkit-20200526-141111/cotc-webfont.woff2") format("woff2"), url("webfontkit-20200526-141111/cotc-webfont.woff") format("woff");
 }
 
-.my-video {
-  width: 100%;
-  height: auto;
-}
-
 .landing {
   text-align: center;
   width: 100%;
@@ -59,6 +54,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   padding: 1px;
   font-family: monospace;
   font-size: 12px;
@@ -68,26 +65,22 @@
   -webkit-box-flex: 50%;
       -ms-flex: 50%;
           flex: 50%;
+  max-width: 50%;
   padding: 0px;
 }
 
-/* Without Container */
-.zoom-without-container {
-  -webkit-transition: -webkit-transform .2s;
-  transition: -webkit-transform .2s;
-  transition: transform .2s;
-  transition: transform .2s, -webkit-transform .2s;
-  /* Animation */
-  margin: 0 auto;
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
 }
 
-.zoom-without-container:hover {
-  -webkit-transform: scale(2);
-          transform: scale(2);
-  /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-
-body, html {
-  height: 100%;
+@media screen and (max-width: 600px) {
+  .column {
+    -webkit-box-flex: 100%;
+        -ms-flex: 100%;
+            flex: 100%;
+    max-width: 100%;
+  }
 }
 /*# sourceMappingURL=style.css.map */
