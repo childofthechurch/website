@@ -59,6 +59,7 @@
   padding: 1px;
   font-family: monospace;
   font-size: 12px;
+  height: auto;
 }
 
 .column {
