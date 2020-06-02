@@ -42,21 +42,22 @@ $text-font: monospace;
 
 .email {
     
-    
-   
-    width: 100%;
     font-family: $text-font;
     color: #ffffff;
-    font-size: 1vw;
+    font-size: 1vw; 
     
-   
+    position: fixed;
+    right: 0px;
+    bottom: 7px;
+    padding: 10px;
     
     
+
     img {
         padding: 10px;
         position: fixed;
         right: 0px;
-        bottom: 0px;
+        bottom: 30px;
 
     }
  
@@ -91,15 +92,11 @@ $text-font: monospace;
   
 .column {
     flex: 50%;
-    max-width: 50%;
+    max-width: 100%;
     padding: 0px;
 }  
-.column img {
-    margin-top: 8px;
-    vertical-align: middle;
-    width: 100%;
-  }
-@media only screen and (max-width: 600px) {
+
+@media screen and (max-width: 600px) {
     .column {
       flex: 100%;
       max-width: 100%;

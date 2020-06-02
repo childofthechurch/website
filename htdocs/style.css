@@ -30,17 +30,20 @@
 }
 
 .email {
-  width: 100%;
   font-family: monospace;
   color: #ffffff;
   font-size: 1vw;
+  position: fixed;
+  right: 0px;
+  bottom: 7px;
+  padding: 10px;
 }
 
 .email img {
   padding: 10px;
   position: fixed;
   right: 0px;
-  bottom: 0px;
+  bottom: 30px;
 }
 
 .end {
@@ -76,17 +79,11 @@
   -webkit-box-flex: 50%;
       -ms-flex: 50%;
           flex: 50%;
-  max-width: 50%;
+  max-width: 100%;
   padding: 0px;
 }
 
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 100%;
-}
-
-@media only screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .column {
     -webkit-box-flex: 100%;
         -ms-flex: 100%;
