@@ -1,19 +1,28 @@
 @font-face {
-  font-family: 'COTC';
-  src: url("webfontkit-20200526-141111/cotc-webfont.woff2") format("woff2"), url("webfontkit-20200526-141111/cotc-webfont.woff") format("woff");
+  font-family: 'TIMES__';
+  src: url('webfontkit-20230806-135721/timess__-webfont.woff2') format('woff2'),
+         url('webfontkit-20230806-135721/timess__-webfont.woff') format('woff');
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #fcf3e4;
+  background-size: cover;
+  width: 100%; 
+  background-position: center;
+  
 }
 
 .landing {
   text-align: center;
   width: 100%;
   height: auto;
-  padding: 1vw 1vw;
-  font-family: 'COTC';
+  padding-top: 50px;
+  font-family: 'TIMES__';
   color: #ffffff;
-  font-size: 8vw;
-  
-  
-  text-shadow: 2px 2px #444444;
   letter-spacing: 6px;
 }
 
@@ -29,26 +38,10 @@
 }
 
 .links img {
-  padding: 10px;
+  padding: 5px;
 }
 
-.email {
-  text-align: right;
-  font-family: monospace;
-  color: #ffffff;
-  font-size: 1vw;
-  position: fixed;
-  right: 10px;
-  bottom: 5px;
-  padding: 0px;
-}
 
-.email img {
-  padding: 1px;
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
-}
 
 .end {
   text-align: center;
@@ -74,7 +67,7 @@
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   padding: 1px;
-  font-family: 'Arial';
+  font-family: 'TIMES__';
   font-size: 12px;
   height: auto;
 }
@@ -89,6 +82,51 @@
   padding: 0px;
 }
 
+#navbar {
+  overflow: hidden;
+  background-color: #fcf3e4;
+;
+  width: 100%;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #000000;
+  font-family:'TIMES__';
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  
+  color: #ff2929;
+}
+
+#navbar a.active {
+
+  color: #845742;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
+
+
+
+
 @media screen and (max-width: 600px) {
   .column {
     -webkit-box-flex: 100%;
@@ -102,5 +140,8 @@
             flex: 100%;
     max-width: 100%;
   }
+
 }
+
+
 /*# ourceMappingURL=style.css.map */

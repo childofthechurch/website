@@ -1,8 +1,8 @@
 $text-font: monospace;
 @font-face {
-    font-family: 'COTC';
-    src: url('webfontkit-20200526-141111/cotc-webfont.woff2') format('woff2'),
-         url('webfontkit-20200526-141111/cotc-webfont.woff') format('woff');
+    font-family: 'TIMESS__';
+    src: url('webfontkit-20230806-135721/timess__-webfont.woff2') format('woff2'),
+         url('webfontkit-20230806-135721/timess__-webfont.woff') format('woff');
 
 }
 
@@ -13,7 +13,7 @@ $text-font: monospace;
     width: 100%;
     height: auto;
     padding: 1vw 1vw;
-    font-family: 'COTC';
+    font-family: 'TIMESS__';
     color: #ffffff;
     font-size: 9vw;
     text-shadow: 2px 2px #444444;

@@ -8,9 +8,17 @@
     <title>Child of the Church Productions</title>
 </head>
 <body>
+
+<div id="navbar">
+  <a href="index.html">Home</a>
+  <a href="#about">About</a>
+  <a href="#about">Press</a>
+  <a href="#about">Shop</a>
+  <a href="mailto:childofthechurchproductions@gmail.com?subject=hello">Email</a>
+</div>
     <header>
  
-      <div class="title">
+      <div class="landing">
         <img src="images/MHSIB_TITLE.png" style="width:100%">
       </div>    
 
@@ -137,3 +145,19 @@
     </header>
 </body>
 </html>
+
+<script>
+  window.onscroll = function() {myFunction()};
+  
+  var navbar = document.getElementById("navbar");
+  var sticky = navbar.offsetTop;
+  
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("sticky")
+    } else {
+      navbar.classList.remove("sticky");
+    }
+  }
+
+  </script>

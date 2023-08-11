@@ -8,11 +8,15 @@
     <title>Child of the Church Productions</title>
 </head>
 <body>
-    <style>
-        body {
-            background-color: #ffffff;
-        }
-    </style>
+
+
+  <div id="navbar">
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+    <a href="#about">Press</a>
+    <a href="#about">Shop</a>
+    <a href="mailto:childofthechurchproductions@gmail.com?subject=hello">Email</a>
+  </div>
     <header>
  
       <div class="title">
@@ -33,7 +37,7 @@
         
         <img src="images/QM_leaflet_Spreads_for_web2_crop.jpg"  style="width:100%">
         
-        <center><br>
+        <center><br><br>
           <audio controls autoplay>
             <source src="20211114_1900_EzraEstherSibuide.mp3" type="audio/mpeg">
           Your browser does not support the audio element.
@@ -112,3 +116,20 @@
 
 </body>
 </html>
+<script>
+
+  window.onscroll = function() {myFunction()};
+  
+  var navbar = document.getElementById("navbar");
+  var sticky = navbar.offsetTop;
+  
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("sticky")
+    } else {
+      navbar.classList.remove("sticky");
+    }
+  }
+
+  
+  </script>
