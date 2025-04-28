@@ -1,0 +1,20 @@
+<!-- Add this code to your head section to enable page preload and resource hints -->
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://code.jquery.com" crossorigin>
+<link rel="preconnect" href="https://player.vimeo.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="https://code.jquery.com">
+<link rel="dns-prefetch" href="https://player.vimeo.com">
+
+<!-- Preload critical CSS -->
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" as="style">
+<link rel="preload" href="style.css" as="style">
+
+<!-- Preload logo images -->
+<link rel="preload" href="images/COTC_productions_LOGO2tiny.png" as="image">
+
+<!-- Instructions on how to add this to your site:
+1. Copy this entire block of code
+2. Paste it in your head section after the charset and viewport tags
+3. This will help browsers load resources faster -->
