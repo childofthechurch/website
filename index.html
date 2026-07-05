@@ -1284,7 +1284,7 @@
           hero: 'TLLD Images/viola_voice.jpg',
           textClass: 'modal-text-credits',
           text: '<span class="credits-heading">Featuring:</span>Lucia della Paolera, Vocals<br>Gobby, Trumpet and Tablas<br>Justine Lugli, Viola<br>Tommy Martinez, Live Processing<br>Timothy Rusterholz, Cello<br>Esther Sibiude, Harp',
-          video: "https://player.vimeo.com/video/1207152754",
+          video: "https://player.vimeo.com/video/1207152754?autoplay=1#t=10s",
           videoFirst: true,
           gallery: [
 
@@ -1538,7 +1538,11 @@
             return '<div class="modal-video-wrap"><video src="' + videoSrc + '#t=' + startTime + '" controls autoplay muted playsinline preload="metadata"></video></div>';
           } else {
             if (/vimeo\.com/.test(videoSrc)) {
-              videoSrc += (videoSrc.indexOf('?') === -1 ? '?' : '&') + 'title=0&byline=0&portrait=0';
+              var hashIdx = videoSrc.indexOf('#');
+              var hash = hashIdx !== -1 ? videoSrc.slice(hashIdx) : '';
+              var base = hashIdx !== -1 ? videoSrc.slice(0, hashIdx) : videoSrc;
+              base += (base.indexOf('?') === -1 ? '?' : '&') + 'title=0&byline=0&portrait=0';
+              videoSrc = base + hash;
             } else if (/youtube\.com|youtu\.be/.test(videoSrc)) {
               videoSrc += (videoSrc.indexOf('?') === -1 ? '?' : '&') + 'rel=0&modestbranding=1';
             }
