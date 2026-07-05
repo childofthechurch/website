@@ -60,7 +60,8 @@
     overflow: hidden;
   }
 
-  body.unlocked { overflow: auto; }
+  body.unlocked { overflow-y: scroll; overflow-x: hidden; }
+  body { scrollbar-gutter: stable; }
 
   /* Full-height landing spacer so productions section starts below the fold */
   .landing {
@@ -460,6 +461,11 @@
 
   @media (max-width: 600px) {
     .about { padding: 32px 24px 64px; }
+  }
+
+  @media (max-width: 600px) {
+    .productions { padding: 32px 16px 64px; }
+    .productions-grid { grid-template-columns: 1fr; }
   }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1108,19 +1114,6 @@
       // Sound toggle
       var soundTimer = null;
 
-      // Try to start with sound on; browsers may block this
-      video.muted = false;
-      video.play().then(function () {
-        soundBtn.textContent = 'sound off';
-        soundBtn.setAttribute('aria-label', 'Turn sound off');
-        soundTimer = setTimeout(muteSound, 60000);
-      }).catch(function () {
-        video.muted = true;
-        video.play();
-        soundBtn.textContent = 'sound on';
-        soundBtn.setAttribute('aria-label', 'Turn sound on');
-      });
-
       function muteSound() {
         video.muted = true;
         soundBtn.textContent = 'sound on';
@@ -1128,6 +1121,20 @@
         clearTimeout(soundTimer);
         soundTimer = null;
       }
+
+      // Try to start with sound on; fall back to muted (required on mobile)
+      video.muted = false;
+      video.play().then(function () {
+        if (reduce) { video.pause(); return; }
+        soundBtn.textContent = 'sound off';
+        soundBtn.setAttribute('aria-label', 'Turn sound off');
+        soundTimer = setTimeout(muteSound, 60000);
+      }).catch(function () {
+        video.muted = true;
+        if (!reduce) { video.play().catch(function () {}); }
+        soundBtn.textContent = 'sound on';
+        soundBtn.setAttribute('aria-label', 'Turn sound on');
+      });
 
       soundBtn.addEventListener('click', function () {
         if (video.muted) {
@@ -1163,7 +1170,6 @@
         toggle.setAttribute('aria-label', 'Open menu');
       });
 
-      if (reduce) { video.pause(); }
 
       // Reveal navbar when cursor is within 40px of top edge
       document.addEventListener('mousemove', function (e) {
