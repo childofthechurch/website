@@ -1116,6 +1116,7 @@
         soundTimer = setTimeout(muteSound, 60000);
       }).catch(function () {
         video.muted = true;
+        video.play();
         soundBtn.textContent = 'sound on';
         soundBtn.setAttribute('aria-label', 'Turn sound on');
       });
