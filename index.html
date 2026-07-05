@@ -210,20 +210,20 @@
     pointer-events: auto;
   }
 
-  /* Hover effect — only while on landing */
-  .menu.visible:not(.scrolled):hover,
+  /* Hover effect — only while on landing, only on pointer devices */
+  @media (hover: hover) {
+    .menu.visible:not(.scrolled):hover { background: #fff; }
+    .menu.visible:not(.scrolled):hover .menu-toggle { color: #0a0a0a; }
+    .menu.visible:not(.scrolled):hover .menu-nav a { color: #0a0a0a; }
+    .menu.visible:not(.scrolled):hover .sound-btn { color: #0a0a0a; }
+    .menu.visible:not(.scrolled):hover .nav-logo { filter: none; }
+  }
+
+  /* Menu open state (applies on all devices) */
   .menu.open { background: #fff; }
-
-  .menu.visible:not(.scrolled):hover .menu-toggle,
   .menu.open .menu-toggle { color: #0a0a0a; }
-
-  .menu.visible:not(.scrolled):hover .menu-nav a,
   .menu.open .menu-nav a { color: #0a0a0a; }
-
-  .menu.visible:not(.scrolled):hover .sound-btn,
   .menu.open .sound-btn { color: #0a0a0a; }
-
-  .menu.visible:not(.scrolled):hover .nav-logo,
   .menu.open .nav-logo { filter: none; }
 
   /* Past landing — collapsed, hover to reveal */
