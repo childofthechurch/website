@@ -157,6 +157,9 @@
     .bg-video {
       transition: height 1.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    .landing {
+      transition: height 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 
   /* ── Centered logo (landing only) ── */
@@ -1757,8 +1760,11 @@
             var aspect = (video.videoHeight && video.videoWidth)
               ? video.videoHeight / video.videoWidth
               : 9 / 16;
+            var naturalH = Math.round(window.innerWidth * aspect);
             video.style.bottom = 'auto';
-            video.style.height = Math.round(window.innerWidth * aspect) + 'px';
+            video.style.height = naturalH + 'px';
+            var landing = document.querySelector('.landing');
+            if (landing) landing.style.height = naturalH + 'px';
           }
         }, 900);
       }, reduce ? 150 : 3000);
