@@ -1637,8 +1637,10 @@
               img.style.objectFit = 'contain';
             });
           }
-          if (refImg.complete && refImg.naturalWidth) { lockHeight(); }
-          else { refImg.addEventListener('load', lockHeight); }
+          lockHeight();
+          if (!refImg.complete || !refImg.naturalWidth) {
+            refImg.addEventListener('load', lockHeight);
+          }
 
           show.addEventListener('mousemove', function (e) {
             var mid = show.getBoundingClientRect().left + show.offsetWidth / 2;
