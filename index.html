@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COTC Productions</title>
+<style>
+  @font-face {
+    font-family: 'Emdeco';
+    src: url('EMDECO.woff2') format('woff2'),
+         url('EMDECO.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'OrganGrinder';
+    src: url('organgrinder_regular-webfont.woff2') format('woff2'),
+         url('organgrinder_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'LimeBlossom';
+    src: url('lime-blossom-caps.regular-webfont.woff2') format('woff2'),
+         url('lime-blossom-caps.regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Moonstar';
+    src: url('moonstar-webfont.woff2') format('woff2'),
+         url('moonstar-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Timess';
+    src: url('timess__-webfont.woff2') format('woff2'),
+         url('timess__-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { background: #000; }
+
+  body {
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  body.unlocked { overflow: auto; }
+
+  /* Full-height landing spacer so productions section starts below the fold */
+  .landing {
+    height: calc(100vh + 4px);
+    height: calc(100dvh + 4px);
+  }
+
+  /* ── Productions section ── */
+  .productions {
+    background: #fff;
+    position: relative;
+    z-index: 1;
+    padding: 32px 48px 96px;
+    scroll-margin-top: 0;
+    margin-top: -4px;
+  }
+
+  .productions-heading {
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .productions-tagline {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: #888;
+    text-align: center;
+    margin-top: -12px;
+    margin-bottom: 28px;
+  }
+
+  .productions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .prod-card {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .prod-card > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .prod-card:hover > img { transform: scale(1.04); }
+
+  .prod-card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 20px 16px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.55));
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .prod-card-sublabel {
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: none;
+    color: rgba(255,255,255,0.75);
+    margin-top: 4px;
+  }
+
+  /* ── Video background ── */
+  .bg-video {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+  }
+
+  /* ── Centered logo (landing only) ── */
+  .stage {
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.9s ease;
+  }
+
+  .stage.resolved { opacity: 0; }
+
+  .lockup { width: clamp(220px, 33vw, 620px); }
+
+  .lockup img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 34vh;
+    max-height: 34dvh;
+    object-fit: contain;
+    opacity: 0;
+    animation: fadeIn 1.8s ease-out 0.2s forwards;
+  }
+
+  /* ── Left menu ── */
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 26px 32px;
+    background: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease, background 0.3s ease;
+  }
+
+  .menu.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Hover effect — only while on landing */
+  .menu.visible:not(.scrolled):hover,
+  .menu.open { background: #fff; }
+
+  .menu.visible:not(.scrolled):hover .menu-toggle,
+  .menu.open .menu-toggle { color: #0a0a0a; }
+
+  .menu.visible:not(.scrolled):hover .menu-nav a,
+  .menu.open .menu-nav a { color: #0a0a0a; }
+
+  .menu.visible:not(.scrolled):hover .sound-btn,
+  .menu.open .sound-btn { color: #0a0a0a; }
+
+  .menu.visible:not(.scrolled):hover .nav-logo,
+  .menu.open .nav-logo { filter: none; }
+
+  /* Past landing — collapsed, hover to reveal */
+  .menu.scrolled {
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease, padding 0.3s ease, background 0.3s ease;
+  }
+
+  .menu.scrolled.near-top {
+    padding-top: 26px;
+    padding-bottom: 26px;
+    opacity: 1;
+    background: #fff;
+  }
+
+  .menu.scrolled.near-top .menu-toggle { color: #0a0a0a; }
+  .menu.scrolled.near-top .menu-nav a { color: #0a0a0a; }
+  .menu.scrolled.near-top .sound-btn { color: #0a0a0a; }
+  .menu.scrolled.near-top .nav-logo { filter: none; }
+
+  .menu.scrolled.open {
+    padding-top: 26px;
+    padding-bottom: 26px;
+    opacity: 1;
+    background: #fff;
+  }
+
+  .menu.scrolled.open .menu-toggle { color: #0a0a0a; }
+  .menu.scrolled.open .menu-nav a { color: #0a0a0a; }
+  .menu.scrolled.open .sound-btn { color: #0a0a0a; }
+  .menu.scrolled.open .nav-logo { filter: none; }
+
+  /* Logo centered in navbar */
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 24px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+  }
+
+  /* "Menu" text button */
+  .menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: #fff;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, color 0.3s ease;
+  }
+
+  .menu-toggle:hover { opacity: 1; }
+
+  /* Dropdown nav */
+  .menu-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 32px 24px;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .menu.open .menu-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .menu-nav a {
+    font-family: inherit;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    transition: opacity 0.2s ease, color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .menu-nav a:hover { opacity: 0.55; }
+
+  /* ── Sound toggle ── */
+  .sound-btn {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: #fff;
+    opacity: 0.75;
+    transition: opacity 0.2s ease, color 0.3s ease;
+    padding: 4px 0;
+  }
+
+  .sound-btn:hover { opacity: 1; }
+
+  /* ── About section ── */
+  .about {
+    background: #fff;
+    color: #0a0a0a;
+    padding: 32px 48px 32px;
+    scroll-margin-top: 76px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about .productions-heading { color: #555; }
+
+  .artists-list {
+    columns: 1;
+    text-align: center;
+  }
+
+  .artist {
+    margin-bottom: 6px;
+    break-inside: avoid;
+  }
+
+  .artist-name {
+    display: inline;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+  }
+
+  .artist-name::after {
+    content: " — ";
+    color: #444;
+  }
+
+  .artist-role {
+    display: inline;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  .about-tagline {
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    color: #000;
+    margin-bottom: 48px;
+  }
+
+
+  .about-body {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.9;
+    letter-spacing: 0.025em;
+    color: #555;
+    text-align: center;
+  }
+
+  /* ── Contact section ── */
+.contact {
+    background: #fff;
+    color: #0a0a0a;
+    padding: 64px 48px 96px;
+    scroll-margin-top: 76px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .contact .productions-heading { color: #999; margin-bottom: 40px; }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    color: #0a0a0a;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    resize: none;
+  }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: #aaa; }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: #888; }
+
+  .contact-form textarea { min-height: 140px; }
+
+  .contact-form button {
+    align-self: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #888;
+    cursor: pointer;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 32px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .contact-form button:hover { border-color: #0a0a0a; }
+
+  @media (max-width: 600px) {
+    .contact { padding: 48px 24px 64px; }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .about { padding: 32px 24px 64px; }
+  }
+
+@media (prefers-reduced-motion: reduce) {
+    .lockup img { animation: none; opacity: 1; }
+    .stage, .menu { transition: none; }
+    .menu-nav { transition: none; transform: none; }
+  }
+
+  /* ── Production modal ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(4, 4, 4, 0);
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease, background 0.45s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+    background: #fff;
+  }
+
+  .modal-close {
+    position: fixed;
+    top: 28px;
+    right: 32px;
+    z-index: 51;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 4px 0;
+  }
+
+  .modal-close.visible { opacity: 0.5; pointer-events: auto; color: #0a0a0a; }
+  .modal-close.visible:hover { opacity: 1; }
+
+  .modal-content {
+    width: 100%;
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 80px 48px 48px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s ease 0.1s, transform 0.45s ease 0.1s;
+    position: relative;
+  }
+
+  .modal-overlay.active .modal-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .modal-hero {
+    width: 100%;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .modal-hero img,
+  .modal-hero video {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 65vh;
+    object-fit: cover;
+  }
+
+  .modal-title-image {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .modal-title {
+    font-size: clamp(28px, 4vw, 56px);
+    font-family: 'Emdeco', Georgia, serif;
+    font-weight: normal;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    margin-bottom: 20px;
+  }
+
+  .modal-location {
+    font-size: 13px;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    letter-spacing: 0.04em;
+    color: #999;
+    margin-bottom: 6px;
+  }
+
+  .modal-date {
+    font-size: 13px;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    letter-spacing: 0.04em;
+    color: #bbb;
+    margin-bottom: 32px;
+  }
+  .modal-image-credit {
+    font-size: 11px;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    letter-spacing: 0.04em;
+    color: #bbb;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .modal-text {
+    font-size: 15px;
+    line-height: 1.9;
+    letter-spacing: 0.025em;
+    color: #555;
+    max-width: 600px;
+    margin-bottom: 52px;
+  }
+
+  .modal-text.modal-text-credits {
+    columns: 2;
+    column-gap: 48px;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+
+  .modal-text.modal-text-credits .credits-heading {
+    column-span: all;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .modal-text.modal-text-credits .credits-col-heading {
+    break-before: column;
+    display: block;
+  }
+
+  .modal-video-wrap {
+    width: 100%;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    aspect-ratio: 16 / 9;
+  }
+
+
+  .modal-video-wrap iframe,
+  .modal-video-wrap video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
+  }
+
+  .modal-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 56px;
+  }
+
+  .modal-gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .modal-gallery img.gallery-wide,
+  .modal-gallery video.gallery-wide {
+    grid-column: span 2;
+  }
+
+  .modal-gallery img.gallery-match-height {
+    display: block;
+    align-self: start;
+  }
+
+
+  .modal-gallery img.gallery-tall {
+    grid-column: span 2;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    object-fit: contain;
+  }
+
+  .modal-gallery video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .modal-gallery .gallery-audio {
+    grid-column: span 2;
+    width: 100%;
+    display: block;
+    margin: 4px 0;
+  }
+
+  .modal-gallery img {
+    cursor: zoom-in;
+  }
+  .modal-gallery a img {
+    cursor: pointer;
+  }
+
+  .gallery-icon-row {
+    grid-column: span 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .gallery-icon-row img {
+    width: auto;
+    height: 56px;
+    object-fit: contain;
+    cursor: default;
+  }
+
+  .gallery-slideshow {
+    grid-column: span 2;
+    position: relative;
+    user-select: none;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .gallery-slideshow img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: inherit;
+  }
+
+  .gallery-slideshow img.hidden {
+    display: none;
+  }
+
+  .slideshow-counter {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.75);
+    background: rgba(0,0,0,0.35);
+    padding: 3px 8px;
+  }
+
+  .slideshow-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    font-family: 'Timess', Georgia, "Times New Roman", Times, serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.6);
+    background: rgba(0,0,0,0.35);
+    padding: 3px 8px;
+  }
+
+  #imgZoom {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.88);
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  #imgZoom.active {
+    display: flex;
+  }
+  #imgZoom img {
+    max-width: min(1020px, calc(100vw - 80px));
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  @media (max-width: 600px) {
+    .modal-content { padding: 64px 24px 80px; }
+    .modal-close { right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <video class="bg-video" id="bgVideo"
+    src="https://pub-6601c22008994215a6065a6a1018c141.r2.dev/sizzle_v_4_final_1%20(720p).mp4"
+    autoplay loop muted playsinline>
+  </video>
+
+  <div class="stage" id="stage">
+    <main class="lockup">
+      <img src="COTC_logo_2.svg" alt="COTC Productions">
+    </main>
+  </div>
+
+  <div class="menu" id="menu">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">Menu</button>
+    <a href="#" aria-label="Back to top"><img class="nav-logo" src="COTC_logo_2.svg" alt="COTC Productions"></a>
+    <nav class="menu-nav" id="menuNav">
+      <a href="#productions">Productions</a>
+      <a href="#about-text">About</a>
+      <a href="#about">Artists</a>
+      <a href="https://bb6b62-2.myshopify.com/" target="_blank" rel="noopener">Shop</a>
+      <a href="#contact">Contact</a>
+      </nav>
+    <button class="sound-btn" id="soundBtn" aria-label="Turn sound on">sound on</button>
+  </div>
+
+  <!-- Landing spacer — video shows through this -->
+  <div class="landing"></div>
+
+  <!-- Productions section -->
+  <section class="productions" id="productions">
+    <p class="productions-heading">Productions</p>
+    <div class="productions-grid">
+
+      <div class="prod-card">
+        <img src="Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_090.jpg" alt="Idiot Plot">
+        <div class="prod-card-label" style="font-family: 'Emdeco', Georgia, serif; letter-spacing: 0.05em;">Idiot Plot<p class="prod-card-sublabel"></p></div>
+      </div>
+
+      <div class="prod-card">
+        <img src="Organ Grinder Images/6E7A2939_export_by_logan_white_.jpg" alt="Organ Grinder">
+        <div class="prod-card-label" style="font-family: 'OrganGrinder', Georgia, serif; text-transform: none;">OrgAn GrindeR<p class="prod-card-sublabel"></p></div>
+      </div>
+
+      <div class="prod-card">
+        <img src="TLLD Images/TLLD_above.jpg" alt="TLLD">
+        <div class="prod-card-label" style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-transform: none;">The Long Last Day<p class="prod-card-sublabel"></p></div>
+      </div>
+
+      <div class="prod-card">
+        <img src="SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_238-2.jpg" alt="SASBC">
+        <div class="prod-card-label" style="background: none; padding-bottom: 15px;">
+          <img src="SASBC Saint Peters Images/sasbc_long_white.svg" alt="Spirit and Soul Become Confused" style="display: block; width: 80%; max-width: 260px;">
+          <p class="prod-card-sublabel">Part 2</p>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <img src="SODSOT Images/EstherSibiude_Kitchen_RSSS1158-Enhanced-NR.jpg" alt="SODSOT">
+        <div class="prod-card-label" style="font-family: 'LimeBlossom', Georgia, serif; text-transform: none;">The Song of Dirt<p class="prod-card-sublabel"></p></div>
+
+      </div>
+
+      <div class="prod-card">
+        <img src="SASBC Saint Peters Images/SELECT 8.jpg" alt="SASBC Saint Peters">
+        <div class="prod-card-label" style="background: none; padding-bottom: 15px;">
+          <img src="SASBC Saint Peters Images/sasbc_long_white.svg" alt="Spirit and Soul Become Confused" style="display: block; width: 80%; max-width: 260px;">
+          <p class="prod-card-sublabel">Part 1</p>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <img src="ESRA Images /QM_20211114-69.jpg" alt="Esra">
+        <div class="prod-card-label" style="font-family: 'Moonstar', Georgia, serif; text-transform: none;">Esra<p class="prod-card-sublabel"></p></div>
+      </div>
+
+      <div class="prod-card">
+        <img src="MHSIB Images/809A0010.jpg" alt="MHSIB">
+      <div class="prod-card-label" style="background: none; padding-bottom: 5px;">
+          <img src="MHSIB_TITLE_white.svg" alt="My Heart Swims in Blood" style="display: block; width: 60%; max-width: 200px;">
+          <p class="prod-card-sublabel"></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About section -->
+  <section class="about" id="about-text">
+    <p class="productions-heading">About</p>
+    <p class="about-body">COTC makes site-specific music performances. Past performances include "Idiot Plot" at Roulette Intermedium (June 2026), "Organ Grinder" on Jane's Carousel (August 2025), "The Long Last Day" at Yale Law School Library and Luhring Augustine Gallery (April 2025), "Spirit &amp; Soul Become Confused" at Saint Peter's Church (2023) and Roulette Intermedium (2024), "Song of Dirt Stammers Our Tongue," at The Kitchen (June 2023), "Esra" on Robert Moses' Panoramic Model of the City of New York at the Queens Museum (2021), and "My Heart Swims in Blood" at Lafayette Avenue Presbyterian Church (2019).</p>
+  </section>
+
+  <!-- Artists section -->
+  <section class="about" id="about">
+    <p class="productions-heading">Artists</p>
+    <div class="artists-list">
+
+      <div class="artist">
+        <p class="artist-name">Francesca Amadee Caruso</p>
+        <p class="artist-role">Violin</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Jared Arnold</p>
+        <p class="artist-role">French Horn</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Matt Aronoff</p>
+        <p class="artist-role">Bass</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Katherine Bernard</p>
+        <p class="artist-role">Hair</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Ludovica Burtone</p>
+        <p class="artist-role">Violin</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Nina Carelli</p>
+        <p class="artist-role">Makeup</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Allyson Clare</p>
+        <p class="artist-role">Viola and Violin</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Humberto de Castro</p>
+        <p class="artist-role">Violin</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Lucia della Paolera</p>
+        <p class="artist-role">Director, Producer, and Vocals</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Jake Dester</p>
+        <p class="artist-role">Alto Saxophone</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">C.F. aka Kim Guillotine</p>
+        <p class="artist-role">Machine</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Lester Garcia</p>
+        <p class="artist-role">Costume Styling</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Myranda Gillies</p>
+        <p class="artist-role">Costume Styling</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Gobby</p>
+        <p class="artist-role">Composer, Drums, and Trumpet</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Michael Guidetti</p>
+        <p class="artist-role">Laser Projections</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Joe Heffernan</p>
+        <p class="artist-role">Piano</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Brad Hoss</p>
+        <p class="artist-role">Sound Design</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Ellie Hunter</p>
+        <p class="artist-role">Hair and Makeup</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Juan José Jiménez</p>
+        <p class="artist-role">Drums</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Valerie Keane</p>
+        <p class="artist-role">Electric Bass</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Zoe Kestan</p>
+        <p class="artist-role">Makeup</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Marty Kenney</p>
+        <p class="artist-role">Bass</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Jacqueline Kramer</p>
+        <p class="artist-role">Videographer and Editor</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Brian Krock</p>
+        <p class="artist-role">Clarinet and Piccolo</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Celia Lesh</p>
+        <p class="artist-role">Props</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Alex LoRe</p>
+        <p class="artist-role">Soprano Saxophone</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Justine Lugli</p>
+        <p class="artist-role">Viola, Costume and Production Design</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Tommy Martinez</p>
+        <p class="artist-role">Live Processing and Guitar</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Reilly McGale</p>
+        <p class="artist-role">Embroidery</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Dorian Mckaie</p>
+        <p class="artist-role">Set Design and Videographer</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Monica Mirabile</p>
+        <p class="artist-role">Movement Direction</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Rianne Mision</p>
+        <p class="artist-role">Guitar</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Maureen Murchie</p>
+        <p class="artist-role">Violin</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Mike Nelson</p>
+        <p class="artist-role">Sound Design</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Vittoria Orlando</p>
+        <p class="artist-role">Lighting Designer</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Lance Piebenga</p>
+        <p class="artist-role">Guitar</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Luisa Popovic</p>
+        <p class="artist-role">Hair</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Timothy Rusterholz</p>
+        <p class="artist-role">Cello and Composer</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Esther Sibiude</p>
+        <p class="artist-role">Harp, Librettist, and Project Director</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Jett Strauss</p>
+        <p class="artist-role">Laser Projections</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Seth Tillett</p>
+        <p class="artist-role">Lighting</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Emilia Wang</p>
+        <p class="artist-role">Flute</p>
+      </div>
+
+      <div class="artist">
+        <p class="artist-name">Thomas Hobson Williams</p>
+        <p class="artist-role">Organ and Synthesizer</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact section -->
+  <section class="contact" id="contact">
+    <p class="productions-heading">Contact</p>
+    <form class="contact-form" id="contactForm">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <textarea name="message" placeholder="Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- Production modal -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true"></div>
+  <button class="modal-close" id="modalClose" aria-label="Close">close</button>
+
+  <!-- Gallery image zoom overlay -->
+  <div id="imgZoom"><img id="imgZoomImg" src="" alt=""></div>
+
+  <script>
+
+    (function () {
+      var video   = document.getElementById('bgVideo');
+      var soundBtn = document.getElementById('soundBtn');
+      var stage   = document.getElementById('stage');
+      var menu    = document.getElementById('menu');
+      var toggle  = document.getElementById('menuToggle');
+      var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Sound toggle
+      var soundTimer = null;
+
+      // Try to start with sound on; browsers may block this
+      video.muted = false;
+      video.play().then(function () {
+        soundBtn.textContent = 'sound off';
+        soundBtn.setAttribute('aria-label', 'Turn sound off');
+        soundTimer = setTimeout(muteSound, 60000);
+      }).catch(function () {
+        video.muted = true;
+        soundBtn.textContent = 'sound on';
+        soundBtn.setAttribute('aria-label', 'Turn sound on');
+      });
+
+      function muteSound() {
+        video.muted = true;
+        soundBtn.textContent = 'sound on';
+        soundBtn.setAttribute('aria-label', 'Turn sound on');
+        clearTimeout(soundTimer);
+        soundTimer = null;
+      }
+
+      soundBtn.addEventListener('click', function () {
+        if (video.muted) {
+          video.muted = false;
+          soundBtn.textContent = 'sound off';
+          soundBtn.setAttribute('aria-label', 'Turn sound off');
+          soundTimer = setTimeout(muteSound, 60000);
+        } else {
+          muteSound();
+        }
+      });
+
+      // Menu toggle
+      toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen);
+        toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target)) {
+          menu.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open menu');
+        }
+      });
+
+      // Close menu when cursor leaves the menu area
+      menu.addEventListener('mouseleave', function () {
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+
+      if (reduce) { video.pause(); }
+
+      // Reveal navbar when cursor is within 40px of top edge
+      document.addEventListener('mousemove', function (e) {
+        if (menu.classList.contains('scrolled')) {
+          if (e.clientY <= 40) {
+            menu.classList.add('near-top');
+          } else if (!menu.classList.contains('open')) {
+            menu.classList.remove('near-top');
+          }
+        } else {
+          menu.classList.remove('near-top');
+        }
+      });
+
+      // ── Production modal ──
+      var productionData = [
+        {
+          title: 'Idiot Plot',
+          location: 'Roulette Intermedium',
+          date: 'June 2, 2026',
+          hero: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_024.jpg',
+          heroPosition: 'center bottom',
+          text: '',
+
+          imageCredit:'All images © Logan White 2026',
+          video: "https://www.youtube.com/embed/SS93R-w0bG4?si=7BreJYXRgCNUTndV",
+          gallery: [
+               { slides: [
+                'Idiot Plot Images/program_frame_1.png',
+                'Idiot Plot Images/program_frame_2.png',
+                'Idiot Plot Images/program_frame_3.png',
+                'Idiot Plot Images/program_frame_4.png',
+                'Idiot Plot Images/program_frame_5.png',
+                'Idiot Plot Images/program_frame_6.png',
+                'Idiot Plot Images/program_frame_7.png',
+                'Idiot Plot Images/program_frame_8.png'
+              ], startSlide: 4},
+             { src: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_023.jpg', wide: true },
+            'https://pub-6601c22008994215a6065a6a1018c141.r2.dev/Idiot%20Plot%20Images/COTC_2026_Roulette_by_Logan_White_006.jpg',
+            'https://pub-6601c22008994215a6065a6a1018c141.r2.dev/Idiot%20Plot%20Images/COTC_2026_Roulette_by_Logan_White_009.jpg',
+            { src: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_050.jpg', wide: true },
+            { src: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_052.jpg', wide: true },
+         
+            { src: 'Idiot Plot Images/under piano.jpg', wide: true },
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_081.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_090.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_094.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_100.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_124.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_133.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_136.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_143.jpg',
+            { src: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_167.jpg', wide: true },
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_173.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_181.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_205.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_216.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_227.jpg',
+            'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_236.jpg',
+            { src: 'Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_238.jpg', wide: true },
+            
+          ]
+        },
+        {
+          title: 'OrgAn GrindeR',
+          titleStyle: "font-family: 'OrganGrinder', Georgia, serif; text-transform: none;",
+          location: "Jane's Carousel",
+          date: 'August 26, 2025',
+          hero: 'Organ Grinder Images/6E7A2601_export_by_logan_white_.jpg',
+          heroPosition: 'center bottom',
+          textClass: 'modal-text-credits',
+
+          imageCredit:'All images © Logan White 2025',
+          text: '<span class="credits-heading">Featuring:</span>Lucia della Paolera, Vocals<br>Jake Dester, Alto Saxophone<br>Gobby, Drums<br>Brian Krock, Piccolo<br>Justine Lugli, Viola<br>Tommy Martinez, Live Processing<br>Monica Mirabile, Movement Direction<br>Timothy Rusterholz, Cello<br>Esther Sibiude, Harp',
+          video: null,
+          gallery: [
+            
+          'Organ Grinder Images/6E7A2168_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A2295_export_by_logan_white_.jpg',
+          {src: 'Organ Grinder Images/OG program 5.5_Page_2.png', wide: true},
+          'Organ Grinder Images/6E7A2396_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A2414_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A2432_export_by_logan_white_.jpg',
+          
+          'Organ Grinder Images/6E7A2508_export_by_logan_white_.jpg',
+          {src: 'Organ Grinder Images/OG program 5.5_Page_1.png', wide: true},
+        
+          {src: 'Organ Grinder Images/6E7A2584_export_by_logan_white_.jpg', wide: true },
+          {src: 'Organ Grinder Images/6E7A2766_export_by_logan_white_.jpg', wide: true },
+          'Organ Grinder Images/6E7A2805_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A2823_export_by_logan_white_.jpg',
+          
+          'Organ Grinder Images/6E7A2836_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A2857_export_by_logan_white_.jpg',
+          {src: 'Organ Grinder Images/6E7A2905_export_by_logan_white_.jpg', wide: true},
+          'Organ Grinder Images/6E7A2939_export_by_logan_white_.jpg',
+          'Organ Grinder Images/6E7A3030_export_by_logan_white_.jpg',
+          
+          ]
+        },
+        {
+          title: 'The Long Last Day',
+          titleStyle: 'font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-transform: none;',
+          subtitle: '*live study music',
+          subtitleStyle: 'font-family: Helvetica, Arial, sans-serif; color: red; font-size: 24px; font-weight: bold; margin-top: -12px; margin-bottom: 20px;',
+          location: 'Lillian Goldman Law Library, Yale Law School',
+          date: 'April 21, 2025',
+          hero: 'TLLD Images/viola_voice.jpg',
+          textClass: 'modal-text-credits',
+          text: '<span class="credits-heading">Featuring:</span>Lucia della Paolera, Vocals<br>Gobby, Trumpet and Tablas<br>Justine Lugli, Viola<br>Tommy Martinez, Live Processing<br>Timothy Rusterholz, Cello<br>Esther Sibiude, Harp',
+          video: "https://player.vimeo.com/video/1207152754",
+          videoFirst: true,
+          gallery: [
+
+            'TLLD Images/YLS_bulletin4.jpg',
+            { src: 'TLLD Images/TLLD_YLS_Poster.png', match: true },
+            {src: 'TLLD Images/TLLD_above.jpg', wide: true},
+           
+            'TLLD Images/students_working_and_watching.jpg',
+            'TLLD Images/students_watching.jpg',
+            'TLLD Images/tabla_harp.jpg',
+            'TLLD Images/TLLD_behind.jpg',
+            
+          ]
+        },
+        {
+          title: 'Spirit and Soul Become Confused',
+          titleImage: 'SASBC Saint Peters Images/sasbc_long.svg',
+          location: "Roulette Intermedium",
+          date: 'February 9, 2024',
+          hero: 'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_045-2.jpg',
+          textClass: 'modal-text-credits',
+          text: 'Directed and Produced by: Lucia della Paolera<br>In Collaboration with: Gobby<br>Musical Direction: Lucia della Paolera, Gobby, Timothy Rusterholz<br>Movement Direction: Monica Mirabile<br>Art Direction: Lucia della Paolera, Justine Lugli<br>Set Design: Dorian Mckaie<br>Projection Design: Michael Guidetti<br>Lighting Design: Seth Tillett<br>Costume Styling: Lester Garcia<br>Graphic and Costume Production: Justine Lugli<br>Twill Appliqué: Reilly McGale<br>Hair: Katherine Bernard, Ellie Hunter<br>Makeup: Zoe Kestan, Emily Marroquin<br>Drawings and Title Font by: Gobby<br><a href="https://bb6b62-2.myshopify.com/products/cotc-productions-hat-2023" target="_blank" rel="noopener" style="color:inherit">Caps for Sale</a>: Caroline Lugli<br><span class="credits-col-heading">Featuring:</span>Francesca Amadée Caruso, violin<br>Matt Aronoff, bass<br>Ludovica Burtone, violin<br>Lucia della Paolera, mezzo-soprano<br>Jake Dester, alto saxophone<br>Gobby, trumpet<br>Juan José Jiménez, drums<br>Brian Krock, clarinet and piccolo<br>Alex LoRe, soprano saxophone<br>Justine Lugli, viola<br>Rianne Mision, guitar<br>Timothy Rusterholz, cello<br>Esther Sibiude, harp<br>Thomas Hobson Williams, organ and synthesizer',
+          
+          imageCredit:'All images © Logan White 2024',
+          video: null,
+          gallery: [
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_012-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_020-2.jpg',
+            { src: 'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_034-2.jpg', wide: true },
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_045-2.jpg', 
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_075-2.jpg', 
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_085-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_097-2.jpg',
+            { src: 'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_130-2.jpg', wide: true },
+
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_115-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_158-2.jpg',
+
+            { src: 'SASBC Roulette Images/SASBC_programROULETTE.png', wide: true },
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_181-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_197-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_207-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_238-2.jpg',
+            { src: 'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_251-2.jpg', wide: true },
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_253-2.jpg',
+            'SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_268-2.jpg',
+          ]
+        },
+          {
+          title: 'The Song of Dirt',
+          titleStyle: "font-family: 'LimeBlossom', Georgia, serif; text-transform: none;",
+          location: 'The Kitchen',
+          date: 'June 2023',
+          hero: 'SODSOT Images/EstherSibiude_Kitchen_RSSS1190-Enhanced-NR.jpg',
+          heroPosition: 'center bottom',
+          text: '',
+          video: null,
+          imageCredit:'All images © Rebecca Smeyne 2023',
+          gallery: [
+            { src: 'SODSOT Images/Poster Song of Dirt.jpg', wide: true },
+            { src: 'SODSOT Images/EstherSibiude_Kitchen_RSSS1158-Enhanced-NR.jpg', wide: true},
+            
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS0724.jpg',
+
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS1220-Enhanced-NR.jpg',
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS0744-Enhanced-NR.jpg',
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS1144-Enhanced-NR.jpg',
+            
+
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS1163-Enhanced-NR.jpg',
+            'SODSOT Images/EstherSibiude_Kitchen_RSSS1177-Enhanced-NR.jpg',
+          ]
+        },
+        {
+          title: 'Spirit and Soul Become Confused',
+          titleImage: 'SASBC Saint Peters Images/sasbc_long.svg',
+          location: "Saint Peter's Lutheran Church",
+          date: 'May 19 and 20, 2023',
+          hero: 'SASBC Saint Peters Images/SELECT 8.jpg',
+          textClass: 'modal-text-credits',
+          text: 'Directed and Produced by: Lucia della Paolera<br>In Collaboration with: Gobby<br>Musical Direction: Lucia della Paolera, Gobby, Timothy Rusterholz<br>Movement Direction: Monica Mirabile<br>Art Direction: Lucia della Paolera, Justine Lugli<br>Costume Styling: Lester Garcia<br>Graphic Design and Costume Production: Justine Lugli<br>Hair: Luisa Popovic<br>Makeup: Nina Carelli<br>Makeup Assistant: Cristy Burton<br>Projection Design: Michael Guidetti<br>Lighting Design: Seth Tillett<br>Drawings and Title Font by: Gobby<br><span class="credits-col-heading">Featuring:</span>Francesca Amadée Caruso, violin<br>Lucia della Paolera, mezzo-soprano<br>Jake Dester, alto-saxophone<br>Gobby, trumpet<br>Brad Hoss, sound engineer<br>Juan José Jiménez, drums<br>Marty Kenney, bass<br>Alex LoRe, soprano saxophone<br>Justine Lugli, viola<br>Maureen Murchie, violin<br>Lance Piebenga, guitar<br>Timothy Rusterholz, cello<br>Esther Sibiude, Harp<br>Thomas Hobson Williams, organ and synthesizer',
+          video: null,
+          imageCredit:'All images © Luisa Alarcón 2023',
+          gallery: [
+            {src: 'SASBC Saint Peters Images/SASBC_program.jpg', wide: true},
+            { iconRow: [
+                'SASBC Saint Peters Images/angels.png',
+                'SASBC Saint Peters Images/cello.png',
+                'SASBC Saint Peters Images/cross_face.png',
+                'SASBC Saint Peters Images/ear.png',
+                'SASBC Saint Peters Images/pray.png',
+              ]},
+            {src: 'SASBC Saint Peters Images/Opening.jpeg', wide: true},
+            'SASBC Saint Peters Images/DANCE1.jpg',
+            'SASBC Saint Peters Images/DANCE2.jpeg',
+            'SASBC Saint Peters Images/DANCE4.jpeg',
+            'SASBC Saint Peters Images/DANCE5.jpeg',
+             { iconRow: [
+                'SASBC Saint Peters Images/angels.png',
+                'SASBC Saint Peters Images/cello.png',
+                'SASBC Saint Peters Images/ear.png',
+                'SASBC Saint Peters Images/angels.png',
+              ]},
+            {src: 'SASBC Saint Peters Images/Closeup_strings.jpeg', wide: true},
+            { src: 'SASBC Saint Peters Images/SELECT 8.jpg', wide: true },
+            { src: 'SASBC Saint Peters Images/SELECT 7.jpg', wide: true },
+            'SASBC Saint Peters Images/SASBC_MOVE1.jpg',
+            'SASBC Saint Peters Images/SASBC_MOVE2.jpg',            
+            'SASBC Saint Peters Images/SASBC_MOVE3.jpg',
+            'SASBC Saint Peters Images/SASBC_MOVE4.jpg',
+            { iconRow: [
+                'SASBC Saint Peters Images/cello.png',
+                'SASBC Saint Peters Images/cross_face.png',
+               
+                'SASBC Saint Peters Images/singface.png',
+                'SASBC Saint Peters Images/trumpet.png',
+              ]},
+            { src: 'SASBC Saint Peters Images/SASBC_translations_PT1.png', bg: '#fff' },
+            { src: 'SASBC Saint Peters Images/SASBC_translations_PT2.png', match: true, bg: '#fff' },
+            'SASBC Saint Peters Images/Select 2.jpg',
+            'SASBC Saint Peters Images/Side_Stage1.jpeg',
+            { src:'SASBC Saint Peters Images/Lance1.jpeg', wide: true },
+            'SASBC Saint Peters Images/Thomas_Organ_Closeup.jpg',
+            'SASBC Saint Peters Images/Thomas_Organ_Far.jpg',
+             { iconRow: [
+                'SASBC Saint Peters Images/angels.png',
+                'SASBC Saint Peters Images/organ_touch.png',
+                'SASBC Saint Peters Images/pray.png',
+                'SASBC Saint Peters Images/singface.png',
+              ]},
+            ],
+        },
+    
+        {
+          title: 'Esra',
+          titleStyle: "font-family: 'Moonstar', Georgia, serif; text-transform: none;",
+          location: 'The Panorama of The City of New York, Queens Museum',
+          date: 'November 14, 2021',
+          hero: 'ESRA Images /QM_20211114-68.jpg',
+          text: '',
+          video: null,
+          imageCredit: 'All images © Kuo-Heng Huang 2021',
+          gallery: [
+            {src:'ESRA Images /QM_leaflet_Spreads_for_web2_crop.jpg', wide: true},
+            'https://pub-6601c22008994215a6065a6a1018c141.r2.dev/20211114_1900_EzraEstherSibuide.mp3', 
+            'ESRA Images /QM_20211114-59.jpg',
+            'ESRA Images /QM_20211114-65.jpg',
+            {src:'ESRA Images /QM_leaflet_Spreads_for_web3.jpg', wide: true},
+            {src:'ESRA Images /QM_20211114-69.jpg', wide: true},
+         
+            'ESRA Images /QM_20211114-71.jpg',
+            'ESRA Images /QM_20211114-60.jpg',
+
+            {src: 'ESRA Images /QM_leaflet_Spreads_for_web4.jpg', wide: true},
+            {src: 'ESRA Images /17093DD0-F018-458A-B266-42A15715F246.JPG', wide: true},
+            
+       
+            'ESRA Images /IMG_9731.JPG',
+
+            'ESRA Images /QM_20211114-74.jpg',
+            {src: 'ESRA Images /QM_20211114-48.jpg', wide: true},
+            
+          ]
+        },
+        {
+          title: 'My Heart Swims in Blood',
+          titleImage: 'MHSIB_TITLE.svg',
+          location: 'Lafayette Avenue Presbyterian Church',
+          date: 'June 15, 2019',
+          hero: 'MHSIB Images/809A9908.jpg',
+          heroPosition: 'center bottom',
+          text: '',
+          video: "https://player.vimeo.com/video/420869039?h=2e8d8e174f",
+          imageCredit: 'All images © Oto Gillen 2020',
+          gallery: [
+            { src: 'MHSIB Images/june15_program.jpg', wide: true },
+            'MHSIB Images/809A9314.jpg',
+            'MHSIB Images/809A9534.jpg',
+            { src: 'MHSIB Images/809A9567.jpg', wide: true},
+            { src: 'MHSIB Images/809A9589.jpg', wide: true},
+            
+            'MHSIB Images/809A9682.jpg',
+            'MHSIB Images/809A9683.jpg',
+           { src: 'MHSIB Images/809A9695.jpg', wide: true},
+            'MHSIB Images/809A9715.jpg',
+            'MHSIB Images/809A9718.jpg',
+            {src: 'MHSIB Images/809A9842.jpg', wide: true},
+          
+            'MHSIB Images/809A9885.jpg',
+            'MHSIB Images/809A9890.jpg',
+            'MHSIB Images/809A9908.jpg',
+            'MHSIB Images/809A9935.jpg',
+            'MHSIB Images/809A9966.jpg',
+            'MHSIB Images/809A9970.jpg',
+
+            {src: 'MHSIB Images/809A0010.jpg', wide: true},
+            
+            'MHSIB Images/809A0038.jpg',
+            'MHSIB Images/809A0084.jpg',
+          ]
+        }
+      ];
+
+      var modalOverlay = document.getElementById('modalOverlay');
+      var modalClose   = document.getElementById('modalClose');
+      var modalContent;
+      var imgZoomDiv   = document.getElementById('imgZoom');
+      var imgZoomEl    = document.getElementById('imgZoomImg');
+
+      imgZoomDiv.addEventListener('click', function () { imgZoomDiv.classList.remove('active'); });
+
+      function openModal(prod) {
+        muteSound();
+        var html = '<div class="modal-content" id="modalContent">';
+
+        if (prod.hero) {
+          html += '<div class="modal-hero">';
+          html += /\.(mp4|webm|ogg)$/i.test(prod.hero)
+            ? '<video src="' + prod.hero + '" autoplay loop muted playsinline></video>'
+            : '<img src="' + prod.hero + '" alt="' + prod.title + '"' + (prod.heroPosition ? ' style="object-position: ' + prod.heroPosition + '"' : '') + '>';
+          html += '</div>';
+        }
+
+        if (prod.titleImage) {
+          html += '<img class="modal-title-image" src="' + prod.titleImage + '" alt="' + prod.title + '">';
+        } else {
+          html += '<h2 class="modal-title"' + (prod.titleStyle ? ' style="' + prod.titleStyle + '"' : '') + '>' + prod.title + '</h2>';
+        }
+
+        if (prod.subtitle) {
+          html += '<p class="modal-subtitle"' + (prod.subtitleStyle ? ' style="' + prod.subtitleStyle + '"' : '') + '>' + prod.subtitle + '</p>';
+        }
+
+        if (prod.location) {
+          var locClass = prod.date ? 'modal-location' : 'modal-location modal-date';
+          html += '<p class="' + locClass + '">' + prod.location + '</p>';
+        }
+
+        if (prod.date) {
+          html += '<p class="modal-date">' + prod.date + '</p>';
+        }
+
+        if (prod.text) {
+          html += '<div class="modal-text' + (prod.textClass ? ' ' + prod.textClass : '') + '">' + prod.text + '</div>';
+        }
+
+        function buildVideo(prod) {
+          var videoSrc = prod.video;
+          if (/\.(mp4|webm|ogg|mov)$/i.test(videoSrc)) {
+            var startTime = prod.videoStart || 0;
+            return '<div class="modal-video-wrap"><video src="' + videoSrc + '#t=' + startTime + '" controls autoplay muted playsinline preload="metadata"></video></div>';
+          } else {
+            if (/vimeo\.com/.test(videoSrc)) {
+              videoSrc += (videoSrc.indexOf('?') === -1 ? '?' : '&') + 'title=0&byline=0&portrait=0';
+            } else if (/youtube\.com|youtu\.be/.test(videoSrc)) {
+              videoSrc += (videoSrc.indexOf('?') === -1 ? '?' : '&') + 'rel=0&modestbranding=1';
+            }
+            return '<div class="modal-video-wrap"><iframe src="' + videoSrc + '" allowfullscreen></iframe></div>';
+          }
+        }
+
+        if (prod.video && prod.videoFirst) { html += buildVideo(prod); }
+
+        if (prod.gallery && prod.gallery.length) {
+          html += '<div class="modal-gallery">';
+          prod.gallery.forEach(function (item) {
+
+            if (typeof item === 'object' && item.iconRow) {
+              html += '<div class="gallery-icon-row">';
+              item.iconRow.forEach(function (s) {
+                html += '<img src="' + s + '" alt="">';
+              });
+              html += '</div>';
+              return;
+            }
+            if (typeof item === 'object' && item.slides) {
+              var startSlide = item.startSlide || 0;
+              html += '<div class="gallery-slideshow" data-start="' + startSlide + '">';
+              item.slides.forEach(function (s, i) {
+                html += '<img src="' + s + '" alt=""' + (i !== startSlide ? ' class="hidden"' : '') + '>';
+              });
+              html += '<span class="slideshow-counter">' + (startSlide + 1) + ' / ' + item.slides.length + '</span>';
+              html += '<span class="slideshow-hint">← prev  |  next →</span>';
+              html += '</div>';
+              return;
+            }
+            var src   = typeof item === 'string' ? item : item.src;
+            var wide  = typeof item === 'object' && item.wide;
+            var match = typeof item === 'object' && item.match;
+            var tall      = typeof item === 'object' && item.tall;
+            var bg    = typeof item === 'object' && item.bg ? item.bg : '';
+            var link  = typeof item === 'object' && item.link ? item.link : '';
+            var classes = [];
+            if (wide)  classes.push('gallery-wide');
+            if (match) classes.push('gallery-match-height');
+            if (tall)  classes.push('gallery-tall');
+            var cls = classes.length ? ' class="' + classes.join(' ') + '"' : '';
+            var style = bg ? ' style="background:' + bg + '"' : '';
+            if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+              html += '<video src="' + src + '" controls muted playsinline preload="metadata"' + cls + '></video>';
+            } else if (/\.(mp3|aac|wav|flac)$/i.test(src)) {
+              html += '<audio src="' + src + '" controls preload="metadata" class="gallery-audio' + (wide ? ' gallery-audio-wide' : '') + '"></audio>';
+            } else {
+              var imgTag = '<img src="' + src + '" alt=""' + cls + style + '>';
+              if (link) {
+                html += '<a href="' + link + '" target="_blank" rel="noopener" style="display:contents">' + imgTag + '</a>';
+              } else {
+                html += imgTag;
+              }
+            }
+          });
+          html += '</div>';
+        }
+
+        if (prod.video && !prod.videoFirst) { html += buildVideo(prod); }
+
+        if (prod.imageCredit) {
+          html += '<p class="modal-image-credit">' + prod.imageCredit + '</p>';
+        }
+
+        html += '</div>';
+
+        modalOverlay.innerHTML = html;
+        modalContent = document.getElementById('modalContent');
+        modalOverlay.scrollTop = 0;
+        modalOverlay.classList.add('active');
+        modalClose.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+
+        modalOverlay.querySelectorAll('.modal-gallery img').forEach(function (img) {
+          if (img.closest('.gallery-slideshow') || img.closest('.gallery-icon-row') || img.closest('.gallery-icon-scatter') || img.closest('a')) return;
+          img.addEventListener('click', function (e) {
+            e.stopPropagation();
+            imgZoomEl.src = img.src;
+            imgZoomEl.style.background = img.style.background || '';
+            imgZoomDiv.classList.add('active');
+          });
+        });
+
+        modalOverlay.querySelectorAll('.gallery-slideshow').forEach(function (show) {
+          var imgs    = show.querySelectorAll('img');
+          var counter = show.querySelector('.slideshow-counter');
+          var hint    = show.querySelector('.slideshow-hint');
+          var current = parseInt(show.dataset.start, 10) || 0;
+
+          // Lock container height to the reference frame (index 1)
+          var refImg = imgs.length > 1 ? imgs[1] : imgs[0];
+          function lockHeight() {
+            var h = Math.round(window.innerHeight * 0.75);
+            show.style.height = h + 'px';
+            imgs.forEach(function (img) {
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'contain';
+            });
+          }
+          if (refImg.complete && refImg.naturalWidth) { lockHeight(); }
+          else { refImg.addEventListener('load', lockHeight); }
+
+          show.addEventListener('mousemove', function (e) {
+            var mid = show.getBoundingClientRect().left + show.offsetWidth / 2;
+            show.style.cursor = e.clientX >= mid ? 'e-resize' : 'w-resize';
+          });
+
+          show.addEventListener('click', function (e) {
+            var mid = show.getBoundingClientRect().left + show.offsetWidth / 2;
+            var forward = e.clientX >= mid;
+            imgs[current].classList.add('hidden');
+            if (forward) {
+              current = (current + 1) % imgs.length;
+            } else {
+              current = (current - 1 + imgs.length) % imgs.length;
+            }
+            imgs[current].classList.remove('hidden');
+            counter.textContent = (current + 1) + ' / ' + imgs.length;
+            hint.textContent = '← prev  |  next →';
+          });
+        });
+
+        // Constrain gallery-match-height images to their preceding sibling's rendered height
+        modalOverlay.querySelectorAll('.gallery-match-height').forEach(function (img) {
+          var ref = img.previousElementSibling;
+          if (!ref || ref.tagName !== 'IMG') return;
+          function applyConstraint() {
+            requestAnimationFrame(function () {
+              var refH = ref.offsetWidth * (ref.naturalHeight / ref.naturalWidth);
+              if (refH > 0) {
+                img.style.height = refH + 'px';
+                img.style.maxHeight = refH + 'px';
+                img.style.objectFit = 'contain';
+                img.style.width = '100%';
+              }
+            });
+          }
+          var loaded = 0;
+          function onLoad() { if (++loaded >= 1) applyConstraint(); }
+          if (ref.complete && ref.naturalWidth) { onLoad(); }
+          else { ref.addEventListener('load', onLoad); }
+        });
+
+        // Suspend background auto-mute while gallery audio is playing
+        modalOverlay.querySelectorAll('.gallery-audio').forEach(function (aud) {
+          aud.addEventListener('play', function () {
+            clearTimeout(soundTimer);
+            soundTimer = null;
+          });
+          aud.addEventListener('pause', function () {
+            if (!video.muted && !soundTimer) {
+              soundTimer = setTimeout(muteSound, 60000);
+            }
+          });
+          aud.addEventListener('ended', function () {
+            if (!video.muted && !soundTimer) {
+              soundTimer = setTimeout(muteSound, 60000);
+            }
+          });
+        });
+
+      }
+
+      function closeModal() {
+        modalOverlay.classList.remove('active');
+        modalClose.classList.remove('visible');
+        document.body.style.overflow = '';
+        setTimeout(function () {
+          if (!modalOverlay.classList.contains('active')) {
+            modalOverlay.innerHTML = '';
+          }
+        }, 500);
+      }
+
+      document.querySelectorAll('.prod-card').forEach(function (card, i) {
+        card.addEventListener('click', function () {
+          if (productionData[i]) openModal(productionData[i]);
+        });
+      });
+
+      modalClose.addEventListener('click', closeModal);
+
+      modalOverlay.addEventListener('click', function (e) {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+      });
+
+      // Lock navbar to white once user scrolls past landing
+      window.addEventListener('scroll', function () {
+        menu.classList.toggle('scrolled', window.scrollY >= window.innerHeight * 0.8);
+      }, { passive: true });
+
+      // Contact form — formatted mailto
+      document.getElementById('contactForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name    = this.elements['name'].value.trim();
+        var email   = this.elements['email'].value.trim();
+        var message = this.elements['message'].value.trim();
+        var subject = encodeURIComponent('Message from ' + name);
+        var body    = encodeURIComponent(message);
+        window.location.href = 'mailto:childofthechurchproductions@gmail.com?subject=' + subject + '&body=' + body;
+      });
+
+      // Reveal menu after logo intro
+      setTimeout(function () {
+        stage.classList.add('resolved');
+        document.body.classList.add('unlocked');
+        setTimeout(function () {
+          menu.classList.add('visible');
+        }, 900);
+      }, reduce ? 150 : 3000);
+    })();
+  </script>
+</body>
+</html>
