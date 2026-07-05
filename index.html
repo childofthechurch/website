@@ -258,6 +258,27 @@
   .menu.scrolled.open .sound-btn { color: #0a0a0a; }
   .menu.scrolled.open .nav-logo { filter: none; }
 
+  /* ── Mobile navbar overrides ── */
+  @media (max-width: 600px) {
+    /* Hamburger icon instead of "Menu" text */
+    .menu-toggle { font-size: 0; }
+    .menu-toggle::before { content: '☰'; font-size: 20px; line-height: 1; }
+    .menu.open .menu-toggle::before { content: '✕'; font-size: 18px; }
+
+    /* Always-visible white navbar once scrolled past landing */
+    .menu.scrolled {
+      opacity: 1;
+      pointer-events: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      background: #fff;
+    }
+    .menu.scrolled .menu-toggle,
+    .menu.scrolled .sound-btn { color: #0a0a0a; }
+    .menu.scrolled .menu-nav a { color: #0a0a0a; }
+    .menu.scrolled .nav-logo { filter: none; }
+  }
+
   /* Logo centered in navbar */
   .nav-logo {
     position: absolute;
