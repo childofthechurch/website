@@ -151,7 +151,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
 
+  @media (max-width: 600px) {
+    .bg-video {
+      transition: height 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 
   /* ── Centered logo (landing only) ── */
@@ -1748,6 +1753,13 @@
         document.body.classList.add('unlocked');
         setTimeout(function () {
           menu.classList.add('visible');
+          if (window.matchMedia('(max-width: 600px)').matches) {
+            var aspect = (video.videoHeight && video.videoWidth)
+              ? video.videoHeight / video.videoWidth
+              : 9 / 16;
+            video.style.bottom = 'auto';
+            video.style.height = Math.round(window.innerWidth * aspect) + 'px';
+          }
         }, 900);
       }, reduce ? 150 : 3000);
     })();
