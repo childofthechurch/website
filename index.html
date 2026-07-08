@@ -1159,18 +1159,20 @@
         soundTimer = null;
       }
 
-      // Try to start with sound on; fall back to muted (required on mobile)
-      video.muted = false;
+      // Start muted (guaranteed to autoplay on mobile); then try to unmute for desktop
+      video.muted = true;
       video.play().then(function () {
         if (reduce) { video.pause(); return; }
-        soundBtn.textContent = 'sound off';
-        soundBtn.setAttribute('aria-label', 'Turn sound off');
-        soundTimer = setTimeout(muteSound, 60000);
+        // Video is playing — now try to unmute
+        video.muted = false;
+        if (!video.muted) {
+          soundBtn.textContent = 'sound off';
+          soundBtn.setAttribute('aria-label', 'Turn sound off');
+          soundTimer = setTimeout(muteSound, 60000);
+        }
+        // If muted stayed true (mobile policy), button stays 'sound on'
       }).catch(function () {
-        video.muted = true;
-        if (!reduce) { video.play().catch(function () {}); }
-        soundBtn.textContent = 'sound on';
-        soundBtn.setAttribute('aria-label', 'Turn sound on');
+        // Even muted play failed (very rare — e.g. reduce motion abort)
       });
 
       soundBtn.addEventListener('click', function () {
