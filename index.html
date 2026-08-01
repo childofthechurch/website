@@ -830,22 +830,22 @@
     <div class="productions-grid">
 
       <div class="prod-card">
-        <img src="Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_090.jpg" alt="Idiot Plot">
+        <img src="Idiot Plot Images/COTC_2026_Roulette_by_Logan_White_090.jpg" alt="Idiot Plot" loading="lazy" decoding="async">
         <div class="prod-card-label" style="font-family: 'Emdeco', Georgia, serif; letter-spacing: 0.05em;">Idiot Plot<p class="prod-card-sublabel"></p></div>
       </div>
 
       <div class="prod-card">
-        <img src="Organ Grinder Images/6E7A2939_export_by_logan_white_.jpg" alt="Organ Grinder">
+        <img src="Organ Grinder Images/6E7A2939_export_by_logan_white_.jpg" alt="Organ Grinder" loading="lazy" decoding="async">
         <div class="prod-card-label" style="font-family: 'OrganGrinder', Georgia, serif; text-transform: none;">OrgAn GrindeR<p class="prod-card-sublabel"></p></div>
       </div>
 
       <div class="prod-card">
-        <img src="TLLD Images/TLLD_above.jpg" alt="TLLD">
+        <img src="TLLD Images/TLLD_above.jpg" alt="TLLD" loading="lazy" decoding="async">
         <div class="prod-card-label" style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-transform: none;">The Long Last Day<p class="prod-card-sublabel"></p></div>
       </div>
 
       <div class="prod-card">
-        <img src="SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_238-2.jpg" alt="SASBC">
+        <img src="SASBC Roulette Images/Lucia_Della_Paolera_at_Roulette_by_Logan_White_238-2.jpg" alt="SASBC" loading="lazy" decoding="async">
         <div class="prod-card-label" style="background: none; padding-bottom: 15px;">
           <div style="width: 80%; max-width: 260px;">
             <img src="SASBC Saint Peters Images/sasbc_long_white.svg" alt="Spirit and Soul Become Confused" style="display: block; width: 100%;">
@@ -855,13 +855,13 @@
       </div>
 
       <div class="prod-card">
-        <img src="SODSOT Images/EstherSibiude_Kitchen_RSSS1158-Enhanced-NR.jpg" alt="SODSOT">
+        <img src="SODSOT Images/EstherSibiude_Kitchen_RSSS1158-Enhanced-NR.jpg" alt="SODSOT" loading="lazy" decoding="async">
         <div class="prod-card-label" style="font-family: 'LimeBlossom', Georgia, serif; text-transform: none;">The Song of Dirt<p class="prod-card-sublabel"></p></div>
 
       </div>
 
       <div class="prod-card">
-        <img src="SASBC Saint Peters Images/SELECT 8.jpg" alt="SASBC Saint Peters">
+        <img src="SASBC Saint Peters Images/SELECT 8.jpg" alt="SASBC Saint Peters" loading="lazy" decoding="async">
         <div class="prod-card-label" style="background: none; padding-bottom: 15px;">
           <div style="width: 80%; max-width: 260px;">
             <img src="SASBC Saint Peters Images/sasbc_long_white.svg" alt="Spirit and Soul Become Confused" style="display: block; width: 100%;">
@@ -871,12 +871,12 @@
       </div>
 
       <div class="prod-card">
-        <img src="ESRA Images /QM_20211114-69.jpg" alt="Esra">
+        <img src="ESRA Images /QM_20211114-69.jpg" alt="Esra" loading="lazy" decoding="async">
         <div class="prod-card-label" style="font-family: 'Moonstar', Georgia, serif; text-transform: none;">Esra<p class="prod-card-sublabel"></p></div>
       </div>
 
       <div class="prod-card">
-        <img src="MHSIB Images/809A0010.jpg" alt="MHSIB">
+        <img src="MHSIB Images/809A0010.jpg" alt="MHSIB" loading="lazy" decoding="async">
       <div class="prod-card-label" style="background: none; padding-bottom: 5px;">
           <img src="MHSIB_TITLE_white.svg" alt="My Heart Swims in Blood" style="display: block; width: 60%; max-width: 200px;">
           <p class="prod-card-sublabel"></p>
@@ -1544,7 +1544,7 @@
           html += '<div class="modal-hero">';
           html += /\.(mp4|webm|ogg)$/i.test(prod.hero)
             ? '<video src="' + prod.hero + '" autoplay loop muted playsinline></video>'
-            : '<img src="' + prod.hero + '" alt="' + prod.title + '"' + (prod.heroPosition ? ' style="object-position: ' + prod.heroPosition + '"' : '') + '>';
+            : '<img src="' + prod.hero + '" alt="' + prod.title + '" loading="lazy" decoding="async"' + (prod.heroPosition ? ' style="object-position: ' + prod.heroPosition + '"' : '') + '>';
           html += '</div>';
         }
 
@@ -1599,7 +1599,7 @@
             if (typeof item === 'object' && item.iconRow) {
               html += '<div class="gallery-icon-row">';
               item.iconRow.forEach(function (s) {
-                html += '<img src="' + s + '" alt="">';
+                html += '<img src="' + s + '" alt="" loading="lazy" decoding="async">';
               });
               html += '</div>';
               return;
@@ -1608,7 +1608,7 @@
               var startSlide = item.startSlide || 0;
               html += '<div class="gallery-slideshow" data-start="' + startSlide + '">';
               item.slides.forEach(function (s, i) {
-                html += '<img src="' + s + '" alt=""' + (i !== startSlide ? ' class="hidden"' : '') + '>';
+                html += '<img src="' + s + '" alt="" loading="lazy" decoding="async"' + (i !== startSlide ? ' class="hidden"' : '') + '>';
               });
               html += '<span class="slideshow-counter">' + (startSlide + 1) + ' / ' + item.slides.length + '</span>';
               html += '<span class="slideshow-hint">← prev  |  next →</span>';
@@ -1632,7 +1632,7 @@
             } else if (/\.(mp3|aac|wav|flac)$/i.test(src)) {
               html += '<audio src="' + src + '" controls preload="metadata" class="gallery-audio' + (wide ? ' gallery-audio-wide' : '') + '"></audio>';
             } else {
-              var imgTag = '<img src="' + src + '" alt=""' + cls + style + '>';
+              var imgTag = '<img src="' + src + '" alt="" loading="lazy" decoding="async"' + cls + style + '>';
               if (link) {
                 html += '<a href="' + link + '" target="_blank" rel="noopener" style="display:contents">' + imgTag + '</a>';
               } else {
