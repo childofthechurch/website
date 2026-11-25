@@ -1165,19 +1165,13 @@
         video.muted = true;
         video.play().catch(function () {});
       } else {
-        // Desktop: try unmuted first, fall back to muted
-        video.muted = false;
-        video.play().then(function () {
-          if (reduce) { video.pause(); return; }
-          soundBtn.textContent = 'sound off';
-          soundBtn.setAttribute('aria-label', 'Turn sound off');
-          soundTimer = setTimeout(muteSound, 60000);
-        }).catch(function () {
-          video.muted = true;
-          video.play().catch(function () {});
-          soundBtn.textContent = 'sound on';
-          soundBtn.setAttribute('aria-label', 'Turn sound on');
-        });
+        // Desktop: let HTML autoplay (muted) handle initial playback.
+        // Never call play() unmuted at load — Safari shows a native play icon if rejected.
+        // User can click sound btn to unmute (a user gesture Safari allows).
+        video.muted = true;
+        if (reduce) {
+          video.pause();
+        }
       }
 
       soundBtn.addEventListener('click', function () {
